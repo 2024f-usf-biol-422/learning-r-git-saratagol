@@ -29,6 +29,7 @@ sample_id <- "SRR12433063"
 ```{r load-packages}
 library(dplyr)
 source("code/functions/single_function.R")
+install.packages("devtools")
 ```
 
 ## Project Description
@@ -69,3 +70,13 @@ print(scatter_plot)
 
 # Save the plot to a file
 ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
+```
+## Session Info
+
+```{r session-info, echo=FALSE}
+# Load devtools package
+library(devtools)
+
+# Display session information
+devtools::session_info()
+```
