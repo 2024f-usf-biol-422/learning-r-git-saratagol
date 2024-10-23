@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
                       error = FALSE)
-options(repos = c(CRAN = "https://cran.rstudio.com"))
 ```
 
 ## Setup
@@ -23,13 +22,12 @@ snp_file <- "data/sample_snp_data.csv"
 
 # Sample ID for subsetting
 sample_id <- "SRR12433063"
-
 ```
 
 ```{r load-packages}
 library(dplyr)
+library(ggplot2)
 source("code/functions/single_function.R")
-install.packages("devtools")
 ```
 
 ## Project Description
@@ -38,7 +36,8 @@ This project analyzes a SNP dataset to identify the SNPs associated with a speci
 
 ```{r subset-data}
 # Pass only the snp_file and sample_id arguments
-single_sample_data <- subset_snp_data(snp_file = snp_file, sample_id = sample_id)
+single_sample_data <- subset_snp_data(snp_file = snp_file,
+                                      sample_id = sample_id)
 
 # Create a csv file for the subsetted data 
 output_file <- paste0("data/subset_snp_data_", sample_id, ".csv")
@@ -54,8 +53,6 @@ The scatter plot was created using the `ggplot2` package [@ggplot22016].
 
 
 ```{r snp-scatterplot, echo=FALSE, message=FALSE, warning=FALSE}
-library(ggplot2)
-
 # Make the scatter plot 
 scatter_plot <- ggplot(single_sample_data, aes(x = pos, y = qual)) +
   geom_point(alpha = 0.6) +
@@ -72,14 +69,13 @@ print(scatter_plot)
 # Save the plot to a file
 ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
 ```
+
 ## Session Info
 This report was generated using the `rmarkdown` package [@rmarkdown2021] and `knitr` [@knitr2021].
 
 ```{r session-info, echo=FALSE}
-# Load devtools package
-library(devtools)
-
 # Display session information
 devtools::session_info()
 ```
+
 ## Sources Cited
