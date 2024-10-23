@@ -12,14 +12,18 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
                       error = FALSE)
+options(repos = c(CRAN = "https://cran.rstudio.com"))
 ```
 
 ## Setup
 
 ```{r setup-chunk}
+# Path to your SNP file
 snp_file <- "data/sample_snp_data.csv"
 
+# Sample ID for subsetting
 sample_id <- "SRR12433063"
+
 ```
 
 ```{r load-packages}
@@ -32,12 +36,14 @@ This project analyzes a SNP dataset to identify the SNPs associated with a speci
 
 
 ```{r subset-data}
-single_sample_data <- subset_snp_data(data = snp_file, sample_id = sample_id)
+# Pass only the snp_file and sample_id arguments as your function expects
+single_sample_data <- subset_snp_data(snp_file = snp_file, sample_id = sample_id)
 
+# Write the subset data to a CSV file
 output_file <- paste0("data/subset_snp_data_", sample_id, ".csv")
 write.csv(single_sample_data, file = output_file, row.names = FALSE)
 
-
+# Confirmation message
 cat("Subset file saved as:", output_file)
 ```
 
