@@ -1,5 +1,5 @@
 ---
-title: 'SARS-CoV-2 Report'
+title: 'SNP Dataset Analysis'
 author: "Sara Tagol"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
@@ -8,17 +8,38 @@ bibliography: references.bib
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
                       error = FALSE)
 ```
 
-# Background
+## Setup
 
-This is a report on SARS-CoV-2, including some variant analysis.
+```{r setup-chunk}
+snp_file <- "data/sample_snp_data.csv"
 
-```{r sample-chunk}
-# this is an example code chunk
-print("Hello World")
+sample_id <- "SRR12433063"
 ```
+
+```{r load-packages}
+library(dplyr)
+source("code/functions/single_function.R")
+```
+
+## Project Description
+This project analyzes a SNP dataset to identify the SNPs associated with a specific sample. The Sample SNP data set has information about the SNPs including chromosome, position number, and the samples they were taken from. The goal of this project is to subset the data and to the sample with the ID `SRR12433063`.
+
+
+```{r subset-data}
+single_sample_data <- subset_snp_data(data = snp_file, sample_id = sample_id)
+
+output_file <- paste0("data/subset_snp_data_", sample_id, ".csv")
+write.csv(single_sample_data, file = output_file, row.names = FALSE)
+
+
+cat("Subset file saved as:", output_file)
+```
+
+## Figures 
+
