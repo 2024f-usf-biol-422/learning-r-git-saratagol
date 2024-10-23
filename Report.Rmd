@@ -47,5 +47,25 @@ write.csv(single_sample_data, file = output_file, row.names = FALSE)
 cat("Subset file saved as:", output_file)
 ```
 
-## Figures 
+## Figures
 
+### Scatterplot of SNP Quality Scores by Position
+
+```{r snp-scatterplot, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+# Make the scatter plot 
+scatter_plot <- ggplot(single_sample_data, aes(x = pos, y = qual)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = paste("SNP Quality Scores by Position for Sample", sample_id),
+    x = "Position in Genome",
+    y = "SNP Quality Score"
+  ) +
+  theme_minimal()
+
+# Display the plot
+print(scatter_plot)
+
+# Save the plot to a file
+ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
