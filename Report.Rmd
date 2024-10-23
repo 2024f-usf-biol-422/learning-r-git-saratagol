@@ -49,8 +49,9 @@ cat("Subset file saved as:", output_file)
 ```
 
 ## Figures
-
 ### Scatterplot of SNP Quality Scores by Position
+The scatter plot was created using the `ggplot2` package [@ggplot22016].
+
 
 ```{r snp-scatterplot, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -72,6 +73,7 @@ print(scatter_plot)
 ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
 ```
 ## Session Info
+This report was generated using the `rmarkdown` package [@rmarkdown2021] and `knitr` [@knitr2021].
 
 ```{r session-info, echo=FALSE}
 # Load devtools package
@@ -80,3 +82,4 @@ library(devtools)
 # Display session information
 devtools::session_info()
 ```
+## Sources Cited
