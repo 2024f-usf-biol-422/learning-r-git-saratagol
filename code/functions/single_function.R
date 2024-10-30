@@ -12,4 +12,3 @@ subset_snp_data <- function(snp_file, sample_id) {
     filter(sample == sample_id)
   return(subset_data)
 }
-

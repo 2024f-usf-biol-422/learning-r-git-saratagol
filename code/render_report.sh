@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -euo pipefail
 
 # This script renders the R Markdown file with the specified parameters
@@ -6,8 +7,6 @@ set -euo pipefail
 # Sara Tagol
 # October 30, 2024
 # sptagol@usfca.edu
-
-
 
 # Check that exactly two arguments are provided
 if [ "$#" -ne 2 ]; then
@@ -23,6 +22,5 @@ SAMPLE_ID="$2"
 # Render the R Markdown file with specified parameters using Rscript
 Rscript -e "rmarkdown::render('Report.Rmd', params = list(snp_file ='$SNP_FILE', sample_id = '$SAMPLE_ID'))"
 
-chmod +x render_report.sh
-./render_report.sh data/sample_snp_data.csv SRR12345678
+mv Report.html output/$SAMPLE_ID.html
 

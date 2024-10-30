@@ -21,10 +21,10 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ```{r setup-chunk}
 # Path to the SNP file
-snp_file <- "data/sample_snp_data.csv"
+snp_file <- params$snp_file
 
 # Sample ID for subsetting
-sample_id <- "SRR12433063"
+sample_id <- params$sample_id
 ```
 
 ```{r load-packages}
@@ -42,7 +42,7 @@ This project analyzes a SNP dataset to identify the SNPs associated with a speci
 single_sample_data <- subset_snp_data(snp_file = snp_file,
                                       sample_id = sample_id)
 
-# Create a csv file for the subsetted data 
+# Create a csv file for the subsetted data
 output_file <- paste0("data/subset_snp_data_", sample_id, ".csv")
 write.csv(single_sample_data, file = output_file, row.names = FALSE)
 
@@ -56,7 +56,7 @@ The scatter plot was created using the `ggplot2` package [@ggplot22016].
 
 
 ```{r snp-scatterplot, echo=FALSE, message=FALSE, warning=FALSE}
-# Make the scatter plot 
+# Make the scatter plot
 scatter_plot <- ggplot(single_sample_data, aes(x = pos, y = qual)) +
   geom_point(alpha = 0.6) +
   labs(
@@ -70,7 +70,8 @@ scatter_plot <- ggplot(single_sample_data, aes(x = pos, y = qual)) +
 print(scatter_plot)
 
 # Save the plot to a file
-ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
+ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"),
+       plot = scatter_plot, width = 8, height = 6)
 
 # Histogram of SNP Quality Scores
 additional_plot <- ggplot(single_sample_data, aes(x = qual)) +
@@ -86,8 +87,8 @@ additional_plot <- ggplot(single_sample_data, aes(x = qual)) +
 print(additional_plot)
 
 # Save the plot to a file
-sample_id <- "SRR12433063"
-ggsave(filename = paste0("output/histogram_snp_quality_", sample_id, ".png"), plot = additional_plot, width = 8, height = 6)
+ggsave(filename = paste0("output/histogram_snp_quality_", sample_id, ".png"),
+       plot = additional_plot, width = 8, height = 6)
 ```
 
 ## Session Info
