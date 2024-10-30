@@ -22,5 +22,4 @@ SAMPLE_ID="$2"
 # Render the R Markdown file with specified parameters using Rscript
 Rscript -e "rmarkdown::render('Report.Rmd', params = list(snp_file ='$SNP_FILE', sample_id = '$SAMPLE_ID'))"
 
-mv Report.html output/$SAMPLE_ID.html
-
+mv Report.html output/"$SAMPLE_ID".html
