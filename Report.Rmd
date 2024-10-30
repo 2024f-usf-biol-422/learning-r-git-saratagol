@@ -68,6 +68,23 @@ print(scatter_plot)
 
 # Save the plot to a file
 ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"), plot = scatter_plot, width = 8, height = 6)
+
+# Histogram of SNP Quality Scores
+additional_plot <- ggplot(single_sample_data, aes(x = qual)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(
+    title = paste("Distribution of SNP Quality Scores for Sample", sample_id),
+    x = "SNP Quality Score",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+# Display the plot
+print(additional_plot)
+
+# Save the plot to a file
+sample_id <- "SRR12433063"
+ggsave(filename = paste0("output/histogram_snp_quality_", sample_id, ".png"), plot = additional_plot, width = 8, height = 6)
 ```
 
 ## Session Info
