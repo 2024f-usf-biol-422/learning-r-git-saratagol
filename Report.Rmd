@@ -5,6 +5,9 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 csl: bioinformatics.csl
 bibliography: references.bib
+params: 
+  snp_file: "data/sample_snp_data.csv"
+  sample_id: "SRR12433063"
 ---
 
 ```{r setup, include = FALSE}
