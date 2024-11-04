@@ -1,24 +1,102 @@
 ---
-title: 'Your Title Here'
-author: "Don Francisco"
+title: 'SNP Dataset Analysis'
+author: "Sara Tagol"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 csl: bioinformatics.csl
 bibliography: references.bib
+params: 
+  snp_file: "data/sample_snp_data.csv"
+  sample_id: "SRR12433063"
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
                       error = FALSE)
 ```
 
-# Background
+## Setup
 
-This is a report on SARS-CoV-2, including some variant analysis.
+```{r setup-chunk}
+# Path to the SNP file
+snp_file <- params$snp_file
 
-```{r sample-chunk}
-# this is an example code chunk
-print("Hello World")
+# Sample ID for subsetting
+sample_id <- params$sample_id
 ```
+
+```{r load-packages}
+library(dplyr)
+library(ggplot2)
+source("code/functions/single_function.R")
+```
+
+## Project Description
+This project analyzes a SNP dataset to identify the SNPs associated with a specific sample. The Sample SNP data set has information about the SNPs including chromosome, position number, and the samples they were taken from. The goal of this project is to subset the data and to the sample with the ID `SRR12433063`.
+
+
+```{r subset-data}
+# Pass only the snp_file and sample_id arguments
+single_sample_data <- subset_snp_data(snp_file = snp_file,
+                                      sample_id = sample_id)
+
+# Create a csv file for the subsetted data
+output_file <- paste0("data/subset_snp_data_", sample_id, ".csv")
+write.csv(single_sample_data, file = output_file, row.names = FALSE)
+
+# Confirmation message
+cat("Subset file saved as:", output_file)
+```
+
+## Figures
+### Scatterplot of SNP Quality Scores by Position
+The scatter plot was created using the `ggplot2` package [@ggplot22016].
+
+
+```{r snp-scatterplot, echo=FALSE, message=FALSE, warning=FALSE}
+# Make the scatter plot
+scatter_plot <- ggplot(single_sample_data, aes(x = pos, y = qual)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = paste("SNP Quality Scores by Position for Sample", sample_id),
+    x = "Position in Genome",
+    y = "SNP Quality Score"
+  ) +
+  theme_minimal()
+
+# Display the plot
+print(scatter_plot)
+
+# Save the plot to a file
+ggsave(filename = paste0("output/scatterplot_snp_quality_", sample_id, ".png"),
+       plot = scatter_plot, width = 8, height = 6)
+
+# Histogram of SNP Quality Scores
+additional_plot <- ggplot(single_sample_data, aes(x = qual)) +
+  geom_histogram(binwidth = 5, fill = "skyblue", color = "black") +
+  labs(
+    title = paste("Distribution of SNP Quality Scores for Sample", sample_id),
+    x = "SNP Quality Score",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+# Display the plot
+print(additional_plot)
+
+# Save the plot to a file
+ggsave(filename = paste0("output/histogram_snp_quality_", sample_id, ".png"),
+       plot = additional_plot, width = 8, height = 6)
+```
+
+## Session Info
+This report was generated using the `rmarkdown` package [@rmarkdown2021] and `knitr` [@knitr2021].
+
+```{r session-info, echo=FALSE}
+# Display session information
+devtools::session_info()
+```
+
+## Sources Cited
